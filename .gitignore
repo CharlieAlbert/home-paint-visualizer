@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env/
+.env.*  # In case you use environment-specific env files
+
+# IDE settings
+.vscode/
+.idea/
+
+# Test reports
+htmlcov/
+.coverage
+.tox/
+.nosetests.xml
+coverage.xml
+
+# PyInstaller
+*.spec
+
+# mypy
+.mypy_cache/
+.dmypy.json
+
+# Pylint
+pylint-report.txt
+
+# Unit test / pytest
+.pytest_cache/
+
+# Static/media/uploads
+static/images/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
