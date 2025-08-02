@@ -1,5 +1,6 @@
 from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from uuid import uuid4
 from pathlib import Path
 
@@ -8,6 +9,8 @@ app = FastAPI()
 BASE_DIR = Path(__file__).resolve().parent.parent
 UPLOAD_DIR = BASE_DIR / "static" / "images"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 
 @app.get("/")
@@ -32,6 +35,19 @@ async def upload_image(image: UploadFile = File(...)):
         "filename": image.filename,
         "url": f"/static/images/{file_id}",
     }
+
+
+@app.get("/images")
+async def list_images():
+    if not UPLOAD_DIR.exists():
+        return JSONResponse(content={"images": []})
+    image_files = [
+        {"filename": img.name, "url": f"{UPLOAD_DIR}/{img.name}"}
+        for img in UPLOAD_DIR.iterdir()
+        if img.is_file() and img.suffix.lower() in [".jpg", ".jpeg", ".png"]
+    ]
+
+    return {"images": image_files}
 
 
 @app.get("/images/{file_name}")
