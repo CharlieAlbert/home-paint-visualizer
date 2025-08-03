@@ -51,7 +51,7 @@ async def list_images():
 
 
 @app.get("/images/{file_name}")
-async def get_images(file_name: str):
+async def get_image(file_name: str):
     file_path = UPLOAD_DIR / file_name
     if not file_path.exists():
         raise HTTPException(status_code=400, detail="File does not exist")
